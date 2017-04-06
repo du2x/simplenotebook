@@ -1,31 +1,22 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { Cell } from "./app.cell";
 
 @Component({
-  selector: 'my-app',
+  selector: "my-app",
   template: `
     <h1>{{title}}</h1>
     <h2>Resolução</h2>
-    <ul class="cells">
-      <li *ngFor="let cell of cells">
-        <span>{{cell.query}}</span>
-      </li>
-    </ul>
+    <div class="cells">
+      <cell *ngFor="let cell of cells">
+      </cell>
+    </div>
   `,
 })
-
 export class AppComponent {
-  title = 'Apurações';
-  cells = cells;
+  title= "Apurações";
+  cells: Cell[] = [
+    new Cell(),
+    new Cell(),
+    new Cell()
+  ]
 }
-
-export class Cell {
-  pretext: string;
-  query: string;
-  output: string;
-}
-
-var cells: Cell[] = [
-  {pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>'},
-  {pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>'},
-  {pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>'}
-]

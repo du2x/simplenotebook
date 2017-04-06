@@ -6,29 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
+var app_cell_1 = require("./app.cell");
 var AppComponent = (function () {
     function AppComponent() {
-        this.title = 'Apurações';
-        this.cells = cells;
+        this.title = "Apurações";
+        this.cells = [
+            new app_cell_1.Cell(),
+            new app_cell_1.Cell(),
+            new app_cell_1.Cell()
+        ];
     }
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
-        selector: 'my-app',
-        template: "\n    <h1>{{title}}</h1>\n    <h2>Resolu\u00E7\u00E3o</h2>\n    <ul class=\"cells\">\n      <li *ngFor=\"let cell of cells\">\n        <span>{{cell.query}}</span>\n      </li>\n    </ul>\n  ",
+        selector: "my-app",
+        template: "\n    <h1>{{title}}</h1>\n    <h2>Resolu\u00E7\u00E3o</h2>\n    <div class=\"cells\">\n      <cell *ngFor=\"let cell of cells\">\n      </cell>\n    </div>\n  ",
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
-var Cell = (function () {
-    function Cell() {
-    }
-    return Cell;
-}());
-exports.Cell = Cell;
-var cells = [
-    { pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>' },
-    { pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>' },
-    { pretext: 'Vamos investigar esta poha agora.', query: 'select * from sistemas_ai', output: '<table><tr><td>oi</td></tr></table>' }
-];
 //# sourceMappingURL=app.component.js.map
