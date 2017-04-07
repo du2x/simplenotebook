@@ -25,5 +25,5 @@ testem.log
 #System Files
 .DS_Store
 
-app/**/*.js
-app/**/*.map
+src/app/**/*.js
+src/app/**/*.map
