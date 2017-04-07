@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms'; // <-- NgModel lives here
-import { AppComponent }  from './app.component';
+import { AppTopic }  from './app.topic';
 import { Cell }  from './app.cell';
 
 
@@ -11,9 +11,9 @@ import { Cell }  from './app.cell';
     FormsModule // <-- import the FormsModule before binding with [(ngModel)]
   ],
   declarations: [
-    AppComponent,
+    AppTopic,
     Cell
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppTopic ]
 })
 export class AppModule { }
