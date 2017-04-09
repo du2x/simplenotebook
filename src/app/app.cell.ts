@@ -1,21 +1,25 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { ICell } from './interfaces';
 
-@Component({
-  selector: "cell",
-  template: `
-    <span class="cell-pretext">{{pretext}}</span>
-    <span class="cell-query">{{query}}</span>
-    <span class="cell-output">{{output}}</span>
-    <span class="cell-posttext">{{posttext}}</span>
-  `,
-})
-export class Cell {
+export class Cell implements ICell {
   pretext: string;
   query: string;
   output: string;
   posttext: string;
+  constructor() { }
+}
 
-  constructor(){
-    this.pretext = "preencha aqui primeiro";
-  }
+@Component({
+  selector: "cell",
+  template: `
+    <div class="cell-pretext">{{cell.pretext}}</div>
+    <div class="cell-query">{{cell.query}}</div>
+    <div class="cell-output">{{cell.output}}</div>
+    <div class="cell-posttext">{{cell.posttext}}</div>
+  `,
+})
+export class CellComponent {
+  @Input()
+  cell:Cell;
+  constructor() { }
 }

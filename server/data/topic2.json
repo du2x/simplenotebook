@@ -1,0 +1,5 @@
+{
+  "title": "My first topic",
+  "cells": [{"pretext":"Grande dudu!", "query":"select * from northwind", "output":"fodase"},
+          {"pretext":"Grande dudu!", "query":"select * from northwind", "output":"fodase"}]
+}

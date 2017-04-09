@@ -11,16 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var Cell = (function () {
     function Cell() {
-        this.pretext = "preencha aqui primeiro";
     }
     return Cell;
 }());
-Cell = __decorate([
+exports.Cell = Cell;
+var CellComponent = (function () {
+    function CellComponent() {
+    }
+    return CellComponent;
+}());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Cell)
+], CellComponent.prototype, "cell", void 0);
+CellComponent = __decorate([
     core_1.Component({
         selector: "cell",
-        template: "\n    <span class=\"cell-pretext\">{{pretext}}</span>\n    <span class=\"cell-query\">{{query}}</span>\n    <span class=\"cell-output\">{{output}}</span>\n    <span class=\"cell-posttext\">{{posttext}}</span>\n  ",
+        template: "\n    <div class=\"cell-pretext\">{{cell.pretext}}</div>\n    <div class=\"cell-query\">{{cell.query}}</div>\n    <div class=\"cell-output\">{{cell.output}}</div>\n    <div class=\"cell-posttext\">{{cell.posttext}}</div>\n  ",
     }),
     __metadata("design:paramtypes", [])
-], Cell);
-exports.Cell = Cell;
+], CellComponent);
+exports.CellComponent = CellComponent;
 //# sourceMappingURL=app.cell.js.map
