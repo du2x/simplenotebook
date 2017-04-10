@@ -1,1 +1,1 @@
-{"title":"My first topic","filename":"topic1.json","cells":[{"output":"fodase","pretext":"Grande dudu!","query":"select * from northwind"},{"output":"fodase","pretext":"Grande dudu!","query":"select * from northwind"}]}
+{"title":"My first topic","filename":"topic1.json", "description":"teste", "cells":[]}

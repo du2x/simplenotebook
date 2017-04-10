@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ElementRef, Renderer2 } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { Cell } from "./app.cell";
 import { FSService } from "./fsservice"
@@ -35,23 +35,23 @@ export class Topic implements ITopic{
     return JSON.stringify({'title':this.title, 'description': this.description,
                             'filename':this.filename, 'cells': this.cells});
   }
-
 }
 
 @Component({
   selector: "topic",
   template: `
     <div class="topic">
-      <h2 (click)="clicked($event)">{{topic.filename}}</h2>
+      <h2 (click)="clicked()">{{topic.filename}}</h2>
       <div class="topic-pane" *ngIf=topic.active>
         <h3>{{topic.title}}</h3>
-        <h4>{{topic.description}}</h4>
+        <h4 *ngIf=!editingDescription (dblclick)="editDescription($event)">{{topic.description}}</h4>
+        <textarea *ngIf=editingDescription (blur)="editingDescription=false">{{topic.description}}</textarea>
         <div class="cells">
           <cell [cell]=cell *ngFor="let cell of topic.cells">
           </cell>
         </div>
-        <button (click)="clean($event)">Clean Cells</button>
-        <button (click)="save($event)">Save</button>
+        <button (click)="clean()">Clean Cells</button>
+        <button (click)="save()">Save</button>
       </div>
     </div>
   `,
@@ -59,8 +59,18 @@ export class Topic implements ITopic{
 export class TopicComponent {
   @Input()
   topic:Topic
-  constructor(private fsservice: FSService){ }
-  clicked(event:Object){
+  editingDescription:boolean
+  editingTitle:boolean
+  constructor(private fsservice: FSService){
+    this.editingDescription=false;
+    this.editingTitle=false;
+  }
+  editDescription($event:MouseEvent){
+     this.editingDescription=true;
+//     let target = $event.target || $event.srcElement;
+//     target.nextElementSibling.focus(); // not working yet.
+  }
+  clicked(){
     if(!this.topic.active){
       this.topic.activate();
       if(!this.topic.loaded){
@@ -82,11 +92,11 @@ export class TopicComponent {
       this.topic.deactivate();
     }
   }
-  clean(event:Object){
+  clean(){
     this.topic.cleanCells();
     console.log(this.topic);
   }
-  save(event:Object){
+  save(){
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
