@@ -18,13 +18,31 @@ export class Topic implements ITopic{
     this.filename=filename;
     this.cells=[];
   }
+
+  cleanCells(){
+    this.cells=[];
+  }
+
+  activate(){
+    this.active=true;
+  }
+
+  deactivate(){
+    this.active=false;
+  }
+
+  stringify(){
+    return JSON.stringify({'title':this.title, 'description': this.description,
+                            'filename':this.filename, 'cells': this.cells});
+  }
+
 }
 
 @Component({
   selector: "topic",
   template: `
-    <div class="topic" (click)="clicked($event)">
-      <h2>{{topic.filename}}</h2>
+    <div class="topic">
+      <h2 (click)="clicked($event)">{{topic.filename}}</h2>
       <div class="topic-pane" *ngIf=topic.active>
         <h3>{{topic.title}}</h3>
         <h4>{{topic.description}}</h4>
@@ -32,6 +50,8 @@ export class Topic implements ITopic{
           <cell [cell]=cell *ngFor="let cell of topic.cells">
           </cell>
         </div>
+        <button (click)="clean($event)">Clean Cells</button>
+        <button (click)="save($event)">Save</button>
       </div>
     </div>
   `,
@@ -42,7 +62,7 @@ export class TopicComponent {
   constructor(private fsservice: FSService){ }
   clicked(event:Object){
     if(!this.topic.active){
-      this.topic.active = true;
+      this.topic.activate();
       if(!this.topic.loaded){
         this.topic.loaded = true;
         this.fsservice.readTopicFile(this.topic.filename).subscribe(
@@ -59,7 +79,18 @@ export class TopicComponent {
       }
     }
     else {
-      this.topic.active = false;
+      this.topic.deactivate();
     }
+  }
+  clean(event:Object){
+    this.topic.cleanCells();
+    console.log(this.topic);
+  }
+  save(event:Object){
+    this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
+      data => { console.log(data); },
+      error => console.error('Error on reading topic.'),
+      () => console.log('Topic saving complete.')
+    );
   }
 }
