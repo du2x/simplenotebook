@@ -44,8 +44,11 @@ export class Topic implements ITopic{
       <h2 (click)="clicked()">{{topic.filename}}</h2>
       <div class="topic-pane" *ngIf=topic.active>
         <h3>{{topic.title}}</h3>
-        <h4 *ngIf=!editingDescription (dblclick)="editDescription($event)">{{topic.description}}</h4>
-        <textarea *ngIf=editingDescription (blur)="editingDescription=false">{{topic.description}}</textarea>
+        <div (dblclick)="editDescription($event)">
+          <span *ngIf=!editingDescription>{{topic.description}}</span>
+          <textarea *ngIf=editingDescription (blur)="editingDescription=false"
+          [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
+        </div>
         <div class="cells">
           <cell [cell]=cell *ngFor="let cell of topic.cells">
           </cell>
