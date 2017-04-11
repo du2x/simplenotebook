@@ -69,7 +69,7 @@ export class TopicComponent {
   clicked(){
     if(!this.topic.active){
       this.topic.activate();
-      if(!this.topic.loaded){
+      if(!this.topic.loaded){ // avoid loading from file more than once
         this.topic.loaded = true;
         this.fsservice.readTopicFile(this.topic.filename).subscribe(
           topicobj => this.topic.copyObjProperties(topicobj),

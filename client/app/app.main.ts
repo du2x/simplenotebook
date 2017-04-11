@@ -6,10 +6,10 @@ import { FSService } from "./fsservice"
   selector: "my-app",
   template: `
     <h1>{{title}}</h1>
-    <div class="topics">
+    <ul materialize="collapsible" data-collapsible="accordion" class="collapsible">
       <topic [topic]=topic *ngFor="let topic of topics">
       </topic>
-    </div>
+    </ul>
   `,
   providers: [FSService],
 

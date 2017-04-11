@@ -7,7 +7,7 @@ import { TopicComponent }  from './app.topic';
 import { FSService } from './fsservice';
 import { CellComponent }  from './app.cell';
 import { HttpModule } from '@angular/http';
-
+//import { MaterializeModule } from "angular2-materialize";
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import { HttpModule } from '@angular/http';
   declarations: [
     AppMain,
     TopicComponent,
-    CellComponent
+    CellComponent,
+//    MaterializeModule
   ],
   bootstrap: [ AppMain ],
   providers: [ FSService ]
