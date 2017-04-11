@@ -44,7 +44,7 @@ export class Topic implements ITopic{
       <h2 (click)="clicked()">{{topic.filename}}</h2>
       <div class="topic-pane" *ngIf=topic.active>
         <h3>{{topic.title}}</h3>
-        <div (dblclick)="editDescription($event)">
+        <div (dblclick)="editingDescription=true">
           <span *ngIf=!editingDescription>{{topic.description}}</span>
           <textarea *ngIf=editingDescription (blur)="editingDescription=false"
           [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
@@ -63,15 +63,9 @@ export class TopicComponent {
   @Input()
   topic:Topic
   editingDescription:boolean
-  editingTitle:boolean
   constructor(private fsservice: FSService){
     this.editingDescription=false;
     this.editingTitle=false;
-  }
-  editDescription($event:MouseEvent){
-     this.editingDescription=true;
-//     let target = $event.target || $event.srcElement;
-//     target.nextElementSibling.focus(); // not working yet.
   }
   clicked(){
     if(!this.topic.active){
