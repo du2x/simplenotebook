@@ -18,19 +18,21 @@ export class Topic implements ITopic{
     this.filename=filename;
     this.cells=[];
   }
-
   cleanCells(){
     this.cells=[];
   }
-
   activate(){
     this.active=true;
   }
-
   deactivate(){
     this.active=false;
   }
-
+  copyObjProperties(topicobj:ITopic){
+    this.title = topicobj.title;
+    this.description = topicobj.description;
+    this.filename = topicobj.filename;
+    this.cells =  topicobj.cells;
+  }
   stringify(){
     return JSON.stringify({'title':this.title, 'description': this.description,
                             'filename':this.filename, 'cells': this.cells});
@@ -70,13 +72,7 @@ export class TopicComponent {
       if(!this.topic.loaded){
         this.topic.loaded = true;
         this.fsservice.readTopicFile(this.topic.filename).subscribe(
-          topicobj => {
-            this.topic.title = topicobj.title;
-            this.topic.description = topicobj.description;
-            topicobj.cells.forEach((cellobj:ICell) => {
-                this.topic.cells.push(<Cell>cellobj);
-              });
-          },
+          topicobj => this.topic.copyObjProperties(topicobj),
           error => console.error('Error on reading topic.'),
           () => console.log('Topic reading complete.')
         );
