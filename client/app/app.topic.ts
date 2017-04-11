@@ -1,8 +1,10 @@
-import { Component, Input, ElementRef, Renderer2 } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { Cell } from "./app.cell";
 import { FSService } from "./fsservice"
 import { ICell, ITopic } from './interfaces';
+import { ContentEditableDirective } from './contenteditablemodel'
+
 
 export class Topic implements ITopic{
   title: string;
@@ -10,27 +12,23 @@ export class Topic implements ITopic{
   active: boolean;
   loaded: boolean;
   filename: string;
-  cells: Cell[];
 
+  cells: Cell[];
   constructor(filename:string){
     this.active=false;
     this.loaded=false;
     this.filename=filename;
     this.cells=[];
   }
-
   cleanCells(){
     this.cells=[];
   }
-
   activate(){
     this.active=true;
   }
-
   deactivate(){
     this.active=false;
   }
-
   stringify(){
     return JSON.stringify({'title':this.title, 'description': this.description,
                             'filename':this.filename, 'cells': this.cells});
@@ -44,8 +42,8 @@ export class Topic implements ITopic{
       <h2 (click)="clicked()">{{topic.filename}}</h2>
       <div class="topic-pane" *ngIf=topic.active>
         <h3>{{topic.title}}</h3>
-        <h4 *ngIf=!editingDescription (dblclick)="editDescription($event)">{{topic.description}}</h4>
-        <textarea *ngIf=editingDescription (blur)="editingDescription=false">{{topic.description}}</textarea>
+        <div [(ngModel)]=topic.description contentEditable=true
+          [(textContent)]=topic.description (input)=topic.description ngDefaultControl></div>
         <div class="cells">
           <cell [cell]=cell *ngFor="let cell of topic.cells">
           </cell>
@@ -59,17 +57,7 @@ export class Topic implements ITopic{
 export class TopicComponent {
   @Input()
   topic:Topic
-  editingDescription:boolean
-  editingTitle:boolean
-  constructor(private fsservice: FSService){
-    this.editingDescription=false;
-    this.editingTitle=false;
-  }
-  editDescription($event:MouseEvent){
-     this.editingDescription=true;
-//     let target = $event.target || $event.srcElement;
-//     target.nextElementSibling.focus(); // not working yet.
-  }
+  constructor(private fsservice: FSService){ }
   clicked(){
     if(!this.topic.active){
       this.topic.activate();

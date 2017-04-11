@@ -17,4 +17,8 @@ export class FSService {
     return this.dataservice.post('http://localhost:5000/save/'+filename, filecontents)
       .map(response => response.json());
   }
+  newTopicFile(title: string){
+    return this.dataservice.post('http://localhost:5000/create/'+title, "")
+      .map(response => response.json());
+  }
 }

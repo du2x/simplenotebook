@@ -7,6 +7,8 @@ import { TopicComponent }  from './app.topic';
 import { FSService } from './fsservice';
 import { CellComponent }  from './app.cell';
 import { HttpModule } from '@angular/http';
+import { ContentEditableDirective } from './contenteditablemodel'
+
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { HttpModule } from '@angular/http';
   declarations: [
     AppMain,
     TopicComponent,
-    CellComponent
+    CellComponent,
+    ContentEditableDirective
   ],
   bootstrap: [ AppMain ],
   providers: [ FSService ]
