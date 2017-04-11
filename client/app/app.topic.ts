@@ -63,10 +63,7 @@ export class TopicComponent {
   @Input()
   topic:Topic
   editingDescription:boolean
-  constructor(private fsservice: FSService){
-    this.editingDescription=false;
-    this.editingTitle=false;
-  }
+  constructor(private fsservice: FSService){ }
   clicked(){
     if(!this.topic.active){
       this.topic.activate();
