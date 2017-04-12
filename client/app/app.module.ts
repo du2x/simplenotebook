@@ -7,21 +7,19 @@ import { TopicComponent }  from './app.topic';
 import { FSService } from './fsservice';
 import { CellComponent }  from './app.cell';
 import { HttpModule } from '@angular/http';
-import { ContentEditableDirective } from './contenteditablemodel'
-
-
+import { AccordionModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
+    AccordionModule.forRoot(),
     FormsModule // <-- import the FormsModule before binding with [(ngModel)]
   ],
   declarations: [
     AppMain,
     TopicComponent,
-    CellComponent,
-    ContentEditableDirective
+    CellComponent
   ],
   bootstrap: [ AppMain ],
   providers: [ FSService ]

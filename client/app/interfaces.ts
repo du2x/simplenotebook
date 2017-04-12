@@ -8,7 +8,8 @@ export interface ICell {
 export interface ITopic {
   title: string;
   description: string;
-  active: boolean;
   filename: string;
+  created: Date;
+  modified: Date;  
   cells: ICell[];
 }

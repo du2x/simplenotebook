@@ -25,15 +25,8 @@ testem.log
 #System Files
 .DS_Store
 
-src/app/*.js
-src/app.*.js
-src/app.*.map
-
-interfaces.js
-interfaces.js.map
-
-fsservice.js
-fsservice.js.map
+client/app/*.js
+client/app/*.map
 
 *.map
 

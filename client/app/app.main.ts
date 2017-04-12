@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
 import { TopicComponent, Topic } from "./app.topic";
 import { FSService } from "./fsservice"
+import { AccordionModule } from 'ngx-bootstrap';
+import { ICell, ITopic } from './interfaces';
+
 
 @Component({
   selector: "my-app",
@@ -9,11 +12,12 @@ import { FSService } from "./fsservice"
     <input [(ngModel)]="newTopicTitle" />
     <button (click)="newTopic()">Create Topic</button>
     <div class="topics">
+    <accordion [closeOthers]="true">
       <topic [topic]=topic *ngFor="let topic of topics">
       </topic>
-    </div>
+    </accordion>
   `,
-  providers: [FSService],
+  providers: [FSService, AccordionModule],
 
 })
 export class AppMain {
@@ -22,24 +26,29 @@ export class AppMain {
   topics: Topic[];
   constructor(private fsservice: FSService){
     this.topics = [];
-    fsservice.listFiles()
+    this.listTopics();
+  }
+  listTopics(){
+    this.topics=[];
+    this.fsservice.listFiles()
       .subscribe(
         topicfiles => {
-          topicfiles.forEach((topic:string) => {
-              this.topics.push(new Topic(topic));
+          topicfiles.forEach((topic:ITopic) => {
+              this.topics.push(new Topic(topic.title, topic.filename));
             });
         },
         error => console.error('Topics listing error'),
         () => console.log('Topics listing complete.')
       );
-    }
-    newTopic(){
-      this.fsservice.newTopicFile(this.newTopicTitle)
-        .subscribe(
-          status => { console.log(status) },
-          error => console.error('Topics creating error'),
-          () => console.log('Topics creating complete.')
-        );
-        this.newTopicTitle = "";
-    }
+  }
+  newTopic(){
+    this.fsservice.newTopicFile(this.newTopicTitle)
+      .subscribe(
+        status => { console.log(status) },
+        error => console.error('Topics creating error'),
+        () => console.log('Topics creating complete.')
+      );
+      this.newTopicTitle = "";
+      this.listTopics();
+  }
 }
