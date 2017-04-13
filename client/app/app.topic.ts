@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { Cell } from "./app.cell";
 import { FSService } from "./fsservice"
-import { ICell, ITopic } from './interfaces';
+import { ICell, CellType, ITopic } from './interfaces';
 import { AccordionModule } from 'ngx-bootstrap';
 
 
@@ -53,7 +53,14 @@ export class Topic implements ITopic{
           </cell>
         </div>
         <!--button (click)="clean()">Clean Cells</button-->
-        <button (click)="save()">Save</button>
+        <div style="float:left">
+          <button class="btn btn-sm btn-outline-primary" (click)="addTextCell()">Add Text</button>
+          <button class="btn btn-sm btn-outline-primary" (click)="addQueryCell()">Add Query</button>
+        </div>
+        <div class="visual-clear-space" ></div>
+        <div style="float:right">
+          <button class="btn btn-sm btn-success" (click)="save()">Save</button>
+        </div>
       </div>
     </accordion-group>
   `,
@@ -78,11 +85,17 @@ export class TopicComponent {
     this.topic.cleanCells();
     console.log(this.topic);
   }
+  addTextCell(){
+    this.topic.cells.push(new Cell(CellType.Text));
+  }
+  addQueryCell(){
+    this.topic.cells.push(new Cell(CellType.Query));
+  }
   save(){
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
-      () => console.log('Topic saving complete.')
+      () => alert('Saved.')
     );
   }
 }

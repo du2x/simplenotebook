@@ -5,7 +5,7 @@ h1 {
 }
 
 .editable{
-  border: 1px solid grey;
+  border: 1px dashed #ddd;
 }
 
 textarea{
@@ -17,4 +17,40 @@ textarea{
 
 nav {
   background-color: grey;
+}
+
+.panel-open .panel-heading{
+  background-color: #e6efdd;
+  font-weight: bold;
+}
+
+accordion-group .panel-heading{
+  background-color: #ddd;
+}
+
+.panel-body{
+  background-color: #fafff5;
+}
+
+.topic-pane {
+  min-height: 120px;
+}
+
+.topics{
+  margin-top:10px;
+}
+
+.btn.btn-execute{
+  display: block;
+  float:right;
+  margin-top: -40px;
+}
+
+.visual-clear{
+  clear:both;
+}
+
+.visual-clear-space{
+  clear:both;
+  margin:10px;
 }

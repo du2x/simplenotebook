@@ -1,8 +1,10 @@
+export enum CellType {Text, Query};
+
 export interface ICell {
-  pretext: string;
+  type: CellType;
+  text: string;
   query: string;
   output: string;
-  posttext: string;
 }
 
 export interface ITopic {
@@ -10,6 +12,6 @@ export interface ITopic {
   description: string;
   filename: string;
   created: Date;
-  modified: Date;  
+  modified: Date;
   cells: ICell[];
 }

@@ -9,13 +9,19 @@ import { ICell, ITopic } from './interfaces';
   selector: "my-app",
   template: `
     <h1>{{title}}</h1>
-    <input [(ngModel)]="newTopicTitle" />
-    <button (click)="newTopic()">Create Topic</button>
+    <div style="text-align:center">
+      <div *ngIf="creatingTopic">
+        <input [(ngModel)]="newTopicTitle" />
+        <button class="btn  btn-success" (click)="newTopic()">Create Topic</button>
+      </div>
+      <button *ngIf="!creatingTopic" class="btn btn-primary" (click)="creatingTopic=true">Add Topic</button>
+    </div>
     <div class="topics">
-    <accordion [closeOthers]="true">
-      <topic [topic]=topic *ngFor="let topic of topics">
-      </topic>
-    </accordion>
+      <accordion [closeOthers]="true">
+        <topic [topic]=topic *ngFor="let topic of topics">
+        </topic>
+      </accordion>
+    </div>
   `,
   providers: [FSService, AccordionModule],
 
@@ -23,10 +29,12 @@ import { ICell, ITopic } from './interfaces';
 export class AppMain {
   title: "Simple Notebook";
   newTopicTitle: string;
+  creatingTopic: boolean;
   topics: Topic[];
   constructor(private fsservice: FSService){
     this.topics = [];
     this.listTopics();
+    this.creatingTopic = false;
   }
   listTopics(){
     this.topics=[];
