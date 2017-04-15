@@ -58,19 +58,13 @@ export class CellComponent {
     this.editingQuery = false;
   }
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    let log: string[] = [];
-    console.log(changes);
     for (let propName in changes) {
       let changedProp = changes[propName];
-      let to = JSON.stringify(changedProp.currentValue);
-      if (changedProp.isFirstChange()) {
-        log.push(`Initial value of ${propName} set to ${to}`);
+      if (changedProp.isFirstChange()) {        
         this.lastCheckedCell = new Cell(changedProp.currentValue.type)
         this.lastCheckedCell.copy(changedProp.currentValue);
       } else {
-        let from = JSON.stringify(changedProp.previousValue);
         this.setDirty(true);
-        log.push(`${propName} changed from ${from} to ${to}`);
       }
     }
   }
