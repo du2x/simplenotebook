@@ -30,4 +30,7 @@ client/app/*.map
 
 *.map
 
-*/venv/
+venv/
+
+data/
+data/*

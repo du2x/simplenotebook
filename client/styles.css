@@ -54,3 +54,7 @@ accordion-group .panel-heading{
   clear:both;
   margin:10px;
 }
+
+.modified{
+  font-style: italic;
+}

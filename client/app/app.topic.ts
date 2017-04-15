@@ -13,7 +13,7 @@ export class Topic implements ITopic{
   filename: string;
   created: Date;
   modified: Date;
-  cells: Cell[];
+  cells: ICell[];
   constructor(title:string, filename:string){
     this.loaded=false;
     this.title=title;
@@ -23,7 +23,7 @@ export class Topic implements ITopic{
   cleanCells(){
     this.cells=[];
   }
-  copyObjProperties(topicobj:ITopic){
+  copyObjProperties(topicobj:ITopic){ // todo: look for generic implementation
     this.title = topicobj.title;
     this.description = topicobj.description;
     this.filename = topicobj.filename;
@@ -41,7 +41,7 @@ export class Topic implements ITopic{
 @Component({
   selector: "topic",
   template: `
-    <accordion-group heading="{{topic.title}}" (click)=clicked()>
+    <accordion-group heading="{{topic.title}}" (click)=clicked()  [class.modified]="dirty">
       <div class="topic-pane" >
         <div (dblclick)="editingDescription=true">
           <pre class="editable" *ngIf=!editingDescription placeholder="">{{topic.description || "Descrição"}}</pre>
@@ -49,7 +49,7 @@ export class Topic implements ITopic{
           [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
         </div>
         <div class="cells">
-          <cell [cell]=cell *ngFor="let cell of topic.cells">
+          <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified($event)">
           </cell>
         </div>
         <!--button (click)="clean()">Clean Cells</button-->
@@ -57,9 +57,9 @@ export class Topic implements ITopic{
           <button class="btn btn-sm btn-outline-primary" (click)="addTextCell()">Add Text</button>
           <button class="btn btn-sm btn-outline-primary" (click)="addQueryCell()">Add Query</button>
         </div>
-        <div class="visual-clear-space" ></div>
+        <div class="visual-clear-space"></div>
         <div style="float:right">
-          <button class="btn btn-sm btn-success" (click)="save()">Save</button>
+          <button class="btn btn-sm btn-success" (click)="save()" [disabled]="!dirty">Save</button>
         </div>
       </div>
     </accordion-group>
@@ -68,9 +68,10 @@ export class Topic implements ITopic{
 })
 export class TopicComponent {
   @Input()
-  topic:Topic
-  editingDescription:boolean
-  constructor(private fsservice: FSService){ }
+  topic:Topic;
+  dirty: boolean;
+  editingDescription:boolean;
+  constructor(private fsservice: FSService){ this.dirty=false; }
   clicked(){
     if(!this.topic.loaded){ // avoid loading from file more than once
       this.topic.loaded = true;
@@ -80,6 +81,9 @@ export class TopicComponent {
         () => console.log('Topic reading complete.')
       );
     }
+  }
+  onModified(dirty:boolean){
+    this.dirty=dirty;
   }
   clean(){
     this.topic.cleanCells();
@@ -95,7 +99,7 @@ export class TopicComponent {
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
-      () => alert('Saved.')
+      () => { alert('Saved.'); this.dirty=false;}
     );
   }
 }
