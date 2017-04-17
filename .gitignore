@@ -34,3 +34,5 @@ venv/
 
 data/
 data/*
+
+*.pyc

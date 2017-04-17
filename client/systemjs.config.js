@@ -24,9 +24,10 @@
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
       // other libraries
-      'rxjs':                      'npm:rxjs',
-      'ngx-bootstrap': 'node_modules/ngx-bootstrap/bundles/ngx-bootstrap.umd.js',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+      'rxjs': 'npm:rxjs',
+      'ngx-bootstrap': 'npm:ngx-bootstrap/bundles/ngx-bootstrap.umd.js',
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      'ng-elastic':                'npm:ng-elastic'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -39,6 +40,11 @@
         }
       },
       rxjs: {
+        defaultExtension: 'js'
+      }
+      ,
+      'ng-elastic': {
+        main: './index.js',
         defaultExtension: 'js'
       }
     }

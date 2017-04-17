@@ -1,12 +1,18 @@
 from flask import Flask, request, jsonify
 import json
+import logging
 from os import listdir
 from flask_cors import CORS, cross_origin
 from slugify import slugify
 from datetime import datetime
 
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+
 app = Flask(__name__)
 CORS(app)
+app.config.from_pyfile('settings.py', silent=True)
+app.logger.addHandler(stream_handler)
 
 data_path = 'data'
 

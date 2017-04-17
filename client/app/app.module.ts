@@ -8,11 +8,14 @@ import { FSService } from './fsservice';
 import { CellComponent }  from './app.cell';
 import { HttpModule } from '@angular/http';
 import { AccordionModule } from 'ngx-bootstrap';
+import { ElasticModule } from 'ng-elastic';
+
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
+    ElasticModule,
     AccordionModule.forRoot(),
     FormsModule // <-- import the FormsModule before binding with [(ngModel)]
   ],

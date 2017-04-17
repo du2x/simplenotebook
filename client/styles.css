@@ -58,3 +58,8 @@ accordion-group .panel-heading{
 .modified{
   font-style: italic;
 }
+
+
+pre.editable{
+  font-style: normal;
+}

@@ -45,7 +45,7 @@ export class Topic implements ITopic{
       <div class="topic-pane" >
         <div (dblclick)="editingDescription=true">
           <pre class="editable" *ngIf=!editingDescription placeholder="">{{topic.description || "Descrição"}}</pre>
-          <textarea cols="" rows="" *ngIf=editingDescription (blur)="editingDescription=false"
+          <textarea fz-elastic cols="" rows="" *ngIf=editingDescription (blur)="editingDescription=false"
           [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
         </div>
         <div class="cells">
@@ -59,7 +59,7 @@ export class Topic implements ITopic{
         </div>
         <div class="visual-clear-space"></div>
         <div style="float:right">
-          <button class="btn btn-sm btn-success" (click)="save()" [disabled]="!dirty">Save</button>
+          <button class="btn btn-sm btn-success" (click)="save($event)" [disabled]="!dirty">Save</button>
         </div>
       </div>
     </accordion-group>
@@ -67,6 +67,7 @@ export class Topic implements ITopic{
   providers: [AccordionModule,]
 })
 export class TopicComponent {
+  // todo: remove cell functionality
   @Input()
   topic:Topic;
   dirty: boolean;
@@ -95,11 +96,16 @@ export class TopicComponent {
   addQueryCell(){
     this.topic.cells.push(new Cell(CellType.Query));
   }
-  save(){
+  save(event:any){
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
-      () => { alert('Saved.'); this.dirty=false;}
+      () => {
+        this.dirty=false;
+        var target = event.target || event.srcElement || event.currentTarget;
+        target.innerText = "Salvou!"
+        setTimeout(function(){ target.innerText = "Salvar"; }, 3000);
+      }
     );
   }
 }

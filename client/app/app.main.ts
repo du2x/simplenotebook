@@ -11,10 +11,12 @@ import { ICell, ITopic } from './interfaces';
     <h1>{{title}}</h1>
     <div style="text-align:center">
       <div *ngIf="creatingTopic">
+        <span>Title: </span>
         <input [(ngModel)]="newTopicTitle" />
         <button class="btn  btn-success" (click)="newTopic()">Create Topic</button>
+        <button *ngIf="creatingTopic" class="btn" (click)="creatingTopic=false">Cancel</button>
       </div>
-      <button *ngIf="!creatingTopic" class="btn btn-primary" (click)="creatingTopic=true">Add Topic</button>
+      <button *ngIf="!creatingTopic" class="btn btn-outline-primary" (click)="creatingTopic=true">Add Topic</button>
     </div>
     <div class="topics">
       <accordion [closeOthers]="true">
