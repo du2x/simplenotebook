@@ -1,0 +1,19 @@
+postgres:
+  image: postgres:9.4.5
+  environment:
+    POSTGRES_USER: simplenotebook
+    POSTGRES_PASSWORD: yourpassword
+  ports:
+    - '5432:5432'
+  volumes:
+    - ~/.docker-volumes/mobydock/postgresql/data:/var/lib/postgresql/data
+
+simplenotebook:
+  build: .
+  command: gunicorn -b 0.0.0.0:8000 --reload --access-logfile - "server.app:app"
+  links:
+    - postgres
+  volumes:
+    - .:/simplenotebook
+  ports:
+    - '8000:8000'
