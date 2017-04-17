@@ -6,6 +6,12 @@ RUN apt-get update && apt-get install -qq -y npm nodejs
 
 COPY . /src
 
-RUN  bash -c "cd /src && npm cache clean && npm rebuild"
+WORKDIR /src
+
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+RUN npm install -g npm3
+
+RUN  npm3 install
 
 COPY simplenotebook_client_nginx.conf /etc/nginx/conf.d/default.conf

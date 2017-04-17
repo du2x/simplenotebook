@@ -1,6 +1,7 @@
 {
-  "name": "simple-notebook",
+  "name": "simplenotebook",
   "version": "0.0.1",
+  "private": true,
   "description": "A simple notebook",
   "scripts": {
     "build": "tsc -p .",
