@@ -2,24 +2,25 @@
 
 A simple notebook. This is my Angular2 pet project.
 
-To try you have to:
+Unfortunately, the docker-compose configuration isn't working, so, to try this app you have to:
 
-1. install server side requirements
+1. build client side docker container
 ```
-pip install -r server/requirements.txt
-```
-
-2. start a python server side app:
-```
-python server/app.py
+docker build -t simplenotebook_client client/
 ```
 
-3. Install packages from packages.json
+2. run client side docker container:
 ```
-npm install
+docker run --name snnginxc --publish 80:80 -P -d simplenotebook_client
 ```
 
-4. start the lite-server with npm on repo root directory.
+3. build server side container:
 ```
-npm start
+docker build -t simplenotebook_server server/
 ```
+
+4. run server side container:
+```
+docker run --name sngnunicorn -P -d simplenotebook_server
+```
+

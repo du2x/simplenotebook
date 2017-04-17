@@ -7,9 +7,6 @@ ENV PYTHONUNBUFFERED 1
 ENV INSTALL_PATH /simplenotebook
 run mkdir -p $INSTALL_PATH
 
-WORKDIR $INSTALL_PATH/client
-CMD npm install
-
 WORKDIR $INSTALL_PATH
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
