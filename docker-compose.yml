@@ -1,17 +1,10 @@
-  nginx:
-    image: nginx:1.11.13
-    container_name: "${USER}-nginx"
+  simplenotebook-client:
+    build: ./client/
     ports:
       - "80:80"
-    volumes:
-      - ./client:/src
-      - ./config/nginx/simplenotebook_client_nginx.conf:/etc/nginx/conf.d/default.conf
-    restart: always
-  flask:
-    build: .
+  simplenotebook-server:
+    build: ./server/
     command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "server.app:app"
-    links:
-      - nginx
     volumes:
       - .:/simplenotebook
     ports:
