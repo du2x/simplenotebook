@@ -4,6 +4,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 RUN apt-get update && apt-get install -qq -y npm nodejs
 
+RUN mkdir /src
+
 COPY . /src
 
 WORKDIR /src

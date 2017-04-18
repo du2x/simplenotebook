@@ -1,11 +1,13 @@
 postgres:
   image: postgres:9.4.5
   environment:
+    POSTGRES_DB: simplenotebook    
     POSTGRES_USER: simplenotebook
     POSTGRES_PASSWORD: mypassword
   ports:
     - '5432:5432'
   volumes:
+    - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     - ~/.docker-volumes/simplenotebook/postgresql/data:/var/lib/postgresql/data
 
 simplenotebook-client:
