@@ -8,7 +8,7 @@
     "build:watch": "tsc -p . -w",
     "serve": "lite-server -c=bs-config.json",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
-    "lint": "tslint ./client/**/*.ts -t verbose"
+    "lint": "tslint ./**/*.ts -t verbose"
   },
   "keywords": [],
   "author": "",
