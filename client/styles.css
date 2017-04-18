@@ -28,7 +28,7 @@ accordion-group .panel-heading{
   background-color: #ddd;
 }
 
-.panel-body{
+.panel-body, .panel-collapse{
   background-color: #fafff5;
 }
 
@@ -40,11 +40,6 @@ accordion-group .panel-heading{
   margin-top:10px;
 }
 
-.btn.btn-execute{
-  display: block;
-  float:right;
-  margin-top: -40px;
-}
 
 .visual-clear{
   clear:both;
@@ -52,11 +47,14 @@ accordion-group .panel-heading{
 
 .visual-clear-space{
   clear:both;
-  margin:10px;
 }
 
 .modified{
   font-style: italic;
+}
+
+.cell-query pre.editable{
+	font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace !important;
 }
 
 

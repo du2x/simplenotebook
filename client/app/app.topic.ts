@@ -42,8 +42,8 @@ export class Topic implements ITopic{
   selector: "topic",
   template: `
     <accordion-group heading="{{topic.title}}" (click)=clicked()  [class.modified]="dirty">
-      <div class="topic-pane" >
-        <div (dblclick)="editingDescription=true">
+      <div class="topic-pane container" >
+        <div  (dblclick)="editingDescription=true">
           <pre class="editable" *ngIf=!editingDescription placeholder="">{{topic.description || "Descrição"}}</pre>
           <textarea fz-elastic cols="" rows="" *ngIf=editingDescription (blur)="editingDescription=false"
           [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
@@ -53,13 +53,14 @@ export class Topic implements ITopic{
           </cell>
         </div>
         <!--button (click)="clean()">Clean Cells</button-->
-        <div style="float:left">
-          <button class="btn btn-sm btn-outline-primary" (click)="addTextCell()">Add Text</button>
-          <button class="btn btn-sm btn-outline-primary" (click)="addQueryCell()">Add Query</button>
-        </div>
-        <div class="visual-clear-space"></div>
-        <div style="float:right">
-          <button class="btn btn-sm btn-success" (click)="save($event)" [disabled]="!dirty">Save</button>
+        <div class="row">
+          <div class="col-11">
+            <button class="btn btn-sm btn-outline-primary" (click)="addTextCell()">Add Text</button>
+            <button class="btn btn-sm btn-outline-primary" (click)="addQueryCell()">Add Query</button>
+          </div>
+          <div class="col-1">
+            <button class="btn btn-sm btn-success" (click)="save($event)" [disabled]="!dirty">Save</button>
+          </div>
         </div>
       </div>
     </accordion-group>

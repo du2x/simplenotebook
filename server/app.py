@@ -5,12 +5,16 @@ from os import listdir
 from flask_cors import CORS, cross_origin
 from slugify import slugify
 from datetime import datetime
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from settings import SQLALCHEMY_DATABASE_URI
 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 
 app = Flask(__name__)
 CORS(app)
+
 app.config.from_pyfile('settings.py', silent=True)
 app.logger.addHandler(stream_handler)
 
@@ -48,10 +52,24 @@ def save_file(filename):
 def create_file(title):
     filename = slugify(title)+'.json'
     contents = json.dumps({'title':title, 'description':'',
-                           'cells':[], 'filename': filename, 'created':str(datetime.now().isoformat())})
+                           'cells':[], 'filename': filename,
+                           'created':str(datetime.now().isoformat())})
     with open('/'.join([data_path,filename]), "w") as f:
         f.write(contents)
     return jsonify({'status':'SUCCESS'})
+
+@cross_origin('*')
+@app.route('/execute', methods=['POST',])
+def execute():
+    contents = request.data
+    try:
+        conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute(contents)
+        return jsonify(json.dumps(cur.fetchall()))
+    except Exception, e:
+        return jsonify({'status':'FAILURE', 'message': str(e)})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

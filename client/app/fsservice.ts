@@ -21,4 +21,8 @@ export class FSService {
     return this.dataservice.post('http://localhost:5000/create/'+title, "")
       .map(response => response.json());
   }
+  executeQuery(query:string){
+    return this.dataservice.post('http://localhost:5000/execute', query)
+      .map(response => response.json());
+  }
 }

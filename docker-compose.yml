@@ -1,11 +1,26 @@
-  simplenotebook-client:
-    build: ./client/
-    ports:
-      - "80:80"
-  simplenotebook-server:
-    build: ./server/
-    command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "server.app:app"
-    volumes:
-      - .:/simplenotebook
-    ports:
-      - '5000:5000'
+postgres:
+  image: postgres:9.4.5
+  environment:
+    POSTGRES_USER: simplenotebook
+    POSTGRES_PASSWORD: mypassword
+  ports:
+    - '5432:5432'
+  volumes:
+    - ~/.docker-volumes/simplenotebook/postgresql/data:/var/lib/postgresql/data
+
+simplenotebook-client:
+  build: ./client/
+  ports:
+    - "80:80"
+
+simplenotebook-server:
+  build: ./server/
+  command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "server.app:app"
+  environment:
+    PYTHONUNBUFFERED: 1
+  links:
+    - postgres
+  volumes:
+    - .:/simplenotebook
+  ports:
+    - '5000:5000'
