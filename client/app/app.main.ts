@@ -19,7 +19,7 @@ import { ICell, ITopic } from './interfaces';
       <button *ngIf="!creatingTopic" class="btn btn-outline-primary" (click)="creatingTopic=true">Add Topic</button>
     </div>
     <div class="topics">
-      <accordion [closeOthers]="true">
+      <accordion role="tablist" [closeOthers]="true">
         <topic [topic]=topic *ngFor="let topic of topics">
         </topic>
       </accordion>

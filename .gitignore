@@ -27,14 +27,14 @@ testem.log
 #System Files
 .DS_Store
 
-client/app/*.js
+client/app/app.*.js
 client/app/*.map
+
+interfaces.js
+fsservice.js
 
 *.map
 
 venv/
-
-data/
-data/*
 
 *.pyc

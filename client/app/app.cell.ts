@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output, OnChanges,SimpleChange } from "@angular/core";
 import { FSService } from "./fsservice"
 import { ICell, CellType } from './interfaces';
+import { buildHtmlTable } from './js2table'
+
+import js2table = require('./js2table');
 
 export class Cell implements ICell {
   type: CellType;
@@ -33,10 +36,10 @@ export class Cell implements ICell {
     </div>
     <div *ngIf="cell.type==CellType.Query" class="row cell-query">
       <div (dblclick)="editingQuery=true" class="col-11">
-        <pre class=query class="editable" *ngIf=!editingQuery placeholder="">{{cell.query || "Query"}}</pre>
+        <pre class=query  *ngIf=!editingQuery placeholder="">{{cell.query || "Query"}}</pre>
         <textarea fz-elastic class=txt-query cols="" rows="" *ngIf=editingQuery (blur)="editingQuery=false"
         [(ngModel)]=cell.query NgControlDefault>{{cell.query}}</textarea>
-        <div class="cell-output">{{cell.output}}</div>
+        <div *ngIf="cell.output" class="cell-output" [innerHtml]=cell.output></div>
       </div>
       <div class="col-1">
         <button class="btn-execute btn btn-sm btn-secundary" [disabled]="!cell.query" (click)="execute()">Go!</button>
@@ -62,9 +65,12 @@ export class CellComponent {
   execute(){
     if(this.cell.query){
       this.fsservice.executeQuery(this.cell.query).subscribe(
-        results => this.cell.output=results,
-        error => console.error('Error on reading topic.'),
-        () => console.log('Topic reading complete.')
+        results => this.cell.output=buildHtmlTable(JSON.parse(results)),
+        error => {
+          console.error('Error on query execution.');
+          this.cell.output="Query execution failure. TODO: capture error details."
+        },
+        () => console.log('Query executing complete.')
       );
     }
   }
