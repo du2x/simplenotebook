@@ -1,6 +1,6 @@
 # Simple Notebook
 
-A simple sql notebook. This is my Angular2 pet project.
+A simple sql notebook. This is my Angular4 pet project.
 
 It uses 3 components:
 
