@@ -59,6 +59,7 @@ export class AppMain {
         () => console.log('Topics creating complete.')
       );
       this.newTopicTitle = "";
+      this.creatingTopic=false;
       this.listTopics();
   }
 }

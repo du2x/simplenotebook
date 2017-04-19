@@ -35,11 +35,11 @@ accordion-group .panel-heading{
 
 .topic-pane {
   min-height: 120px;
-  font-style: normal;  
+  font-style: normal;
 }
 
 .topics{
-  margin-top:10px;
+  margin:10px 0;
 }
 
 .cell-query{
@@ -61,6 +61,7 @@ accordion-group .panel-heading{
   overflow-y: auto;
   border: 1px solid black;
 }
+
 
 
 .visual-clear{
