@@ -42,20 +42,26 @@ def read_file(filename):
 @cross_origin('*')
 @app.route('/save/<filename>', methods=['POST',])
 def save_file(filename):
-    contents = request.data
-    with open('/'.join([data_path,filename]), "w") as f:
-	       f.write(contents)
+    try:
+        contents = request.data
+        with open('/'.join([data_path,filename]), "w") as f:
+    	       f.write(contents)
+    except Exception, e:
+        return jsonify({'status':'FAILURE', 'message': str(e)})
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
 @app.route('/create/<title>', methods=['POST',])
 def create_file(title):
-    filename = slugify(title)+'.json'
-    contents = json.dumps({'title':title, 'description':'',
-                           'cells':[], 'filename': filename,
-                           'created':str(datetime.now().isoformat())})
-    with open('/'.join([data_path,filename]), "w") as f:
-        f.write(contents)
+    try:
+        filename = slugify(title)+'.json'
+        contents = json.dumps({'title':title, 'description':'',
+                               'cells':[], 'filename': filename,
+                               'created':str(datetime.now().isoformat())})
+        with open('/'.join([data_path,filename]), "w") as f:
+            f.write(contents)
+    except Exception, e:
+        return jsonify({'status':'FAILURE', 'message': str(e)})
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
@@ -66,7 +72,7 @@ def execute():
         conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
         cur = conn.cursor(cursor_factory=RealDictCursor)
         cur.execute(contents)
-        return jsonify(json.dumps(cur.fetchall()))
+        return jsonify({'status':'SUCCESS', 'payload': json.dumps(cur.fetchall())})
     except Exception, e:
         return jsonify({'status':'FAILURE', 'message': str(e)})
 

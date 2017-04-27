@@ -65,7 +65,12 @@ export class CellComponent {
   execute(){
     if(this.cell.query){
       this.fsservice.executeQuery(this.cell.query).subscribe(
-        results => this.cell.output=buildHtmlTable(JSON.parse(results)),
+        results => {
+          if(results['status']=='SUCCESS')
+            this.cell.output=buildHtmlTable(JSON.parse(results['payload']))
+          else
+            this.cell.output=results['message'];
+        },
         error => {
           console.error('Error on query execution.');
           this.cell.output="Query execution failure. TODO: capture error details."
