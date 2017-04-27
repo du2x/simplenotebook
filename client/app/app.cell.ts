@@ -8,13 +8,23 @@ import js2table = require('./js2table');
 export class Cell implements ICell {
   type: CellType;
   text: string;
-  query: string;
+  query: {
+    text: string;
+    output: string;
+    datetime: Date;
+    //connection: string;
+  }
   output: string;
   constructor(type: CellType) {
     this.type = type;
+    this.query={
+      text:'',
+      output:'',
+      datetime:null
+    }
   }
   cmp(obj:ICell){
-    return this.type==obj.type && this.text==obj.text && this.query == obj.query && this.output == obj.output;
+    return this.type==obj.type && this.text==obj.text && this.query == obj.query;
   }
   copy(obj:ICell){ // todo: look for generic implementation
     this.type=obj.type;
@@ -36,13 +46,13 @@ export class Cell implements ICell {
     </div>
     <div *ngIf="cell.type==CellType.Query" class="row cell-query">
       <div (dblclick)="editingQuery=true" class="col-11">
-        <pre class=query  *ngIf=!editingQuery placeholder="">{{cell.query || "Query"}}</pre>
+        <pre class=query  *ngIf=!editingQuery placeholder="">{{cell.query.text || "Query"}}</pre>
         <textarea fz-elastic class=txt-query cols="" rows="" *ngIf=editingQuery (blur)="editingQuery=false"
-        [(ngModel)]=cell.query NgControlDefault>{{cell.query}}</textarea>
-        <div *ngIf="cell.output" class="cell-output" [innerHtml]=cell.output></div>
+        [(ngModel)]=cell.query.text NgControlDefault>{{cell.query.text}}</textarea>
+        <div *ngIf="cell.query.output" class="cell-output" [innerHtml]=cell.query.output></div>
       </div>
       <div class="col-1">
-        <button class="btn-execute btn btn-sm btn-secundary" [disabled]="!cell.query" (click)="execute()">Go!</button>
+        <button class="btn-execute btn btn-sm btn-secundary" [disabled]="!cell.query.text" (click)="execute()">Go!</button>
       </div>
     </div>
   `,
@@ -64,16 +74,16 @@ export class CellComponent {
   }
   execute(){
     if(this.cell.query){
-      this.fsservice.executeQuery(this.cell.query).subscribe(
+      this.fsservice.executeQuery(this.cell.query.text).subscribe(
         results => {
           if(results['status']=='SUCCESS')
-            this.cell.output=buildHtmlTable(JSON.parse(results['payload']))
+            this.cell.query.output=buildHtmlTable(JSON.parse(results['payload']))
           else
-            this.cell.output=results['message'];
+            this.cell.query.output=results['message'];
         },
         error => {
           console.error('Error on query execution.');
-          this.cell.output="Query execution failure. TODO: capture error details."
+          this.cell.query.output="Query execution failure. TODO: capture error details."
         },
         () => console.log('Query executing complete.')
       );

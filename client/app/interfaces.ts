@@ -3,7 +3,12 @@ export enum CellType {Text, Query};
 export interface ICell {
   type: CellType;
   text: string;
-  query: string;
+  query: {
+    text: string;
+    output: string;
+    datetime: Date;
+    //connection: string;
+  }
   output: string;
 }
 

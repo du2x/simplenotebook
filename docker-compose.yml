@@ -9,10 +9,10 @@ postgres:
   volumes:
     - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-simplenotebook-client:
-  build: ./client/
-  ports:
-    - "80:80"
+#simplenotebook-client:
+#  build: ./client/
+#  ports:
+#    - "80:80"
 
 simplenotebook-server:
   build: ./server/
