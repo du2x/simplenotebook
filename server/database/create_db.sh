@@ -4,7 +4,7 @@ dropdb simplenotebook
 dropuser simplenotebook
 
 createdb simplenotebook
-psql simplenotebook < northwind.sql
+psql simplenotebook < init.sql
 
 psql template1 -c "create user simplenotebook;"
 psql template1 -c "alter user simplenotebook password 'mypassword';"

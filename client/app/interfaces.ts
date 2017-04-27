@@ -9,7 +9,6 @@ export interface ICell {
 
 export interface ITopic {
   title: string;
-  description: string;
   filename: string;
   created: Date;
   modified: Date;

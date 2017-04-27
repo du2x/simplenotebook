@@ -8,7 +8,6 @@ import { AccordionModule } from 'ngx-bootstrap';
 
 export class Topic implements ITopic{
   title: string;
-  description: string;
   loaded: boolean;
   filename: string;
   created: Date;
@@ -25,16 +24,14 @@ export class Topic implements ITopic{
   }
   copyObjProperties(topicobj:ITopic){ // todo: look for generic implementation
     this.title = topicobj.title;
-    this.description = topicobj.description;
     this.filename = topicobj.filename;
     this.cells =  topicobj.cells;
     this.created = topicobj.created;
     this.modified = topicobj.modified;
   }
   stringify(){
-    return JSON.stringify({'title':this.title, 'description': this.description,
-                            'filename':this.filename, 'cells': this.cells,
-                             'created': this.created, 'modified':this.modified});
+    return JSON.stringify({'title':this.title, 'filename':this.filename,
+    'cells': this.cells, 'created': this.created, 'modified':this.modified});
   }
 }
 
@@ -43,11 +40,6 @@ export class Topic implements ITopic{
   template: `
     <accordion-group heading="{{topic.title}}" (click)=clicked()  [class.modified]="dirty">
       <div class="topic-pane container" >
-        <div  (dblclick)="editingDescription=true">
-          <pre class="editable" *ngIf=!editingDescription placeholder="">{{topic.description || "Descrição"}}</pre>
-          <textarea fz-elastic cols="" rows="" *ngIf=editingDescription (blur)="editingDescription=false"
-          [(ngModel)]=topic.description NgControlDefault>{{topic.description}}</textarea>
-        </div>
         <div class="cells">
           <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified($event)">
           </cell>
@@ -72,7 +64,6 @@ export class TopicComponent {
   @Input()
   topic:Topic;
   dirty: boolean;
-  editingDescription:boolean;
   constructor(private fsservice: FSService){ this.dirty=false; }
   clicked(){
     if(!this.topic.loaded){ // avoid loading from file more than once
