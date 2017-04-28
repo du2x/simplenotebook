@@ -23,12 +23,15 @@ export class Cell implements ICell {
     }
   }
   cmp(obj:ICell){
-    return this.type==obj.type && this.text==obj.text && this.query == obj.query;
+    return this.type==obj.type && this.text==obj.text
+          && this.query.text == obj.query.text
+          && this.query.output == obj.query.output          
   }
   copy(obj:ICell){ // todo: look for generic implementation
     this.type=obj.type;
     this.text=obj.text;
-    this.query=obj.query;
+    this.query.text=obj.query.text;
+    this.query.output=obj.query.output;
   }
 }
 
