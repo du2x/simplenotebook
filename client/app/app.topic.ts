@@ -44,7 +44,6 @@ export class Topic implements ITopic{
           <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified($event)">
           </cell>
         </div>
-        <!--button (click)="clean()">Clean Cells</button-->
         <div class="row">
           <div class="col-11">
             <button class="btn btn-sm btn-outline-primary" (click)="addTextCell()">Add Text</button>
@@ -78,10 +77,6 @@ export class TopicComponent {
   onModified(dirty:boolean){
     this.dirty=dirty;
   }
-  clean(){
-    this.topic.cleanCells();
-    console.log(this.topic);
-  }
   addTextCell(){
     this.topic.cells.push(new Cell(CellType.Text));
   }
@@ -89,13 +84,14 @@ export class TopicComponent {
     this.topic.cells.push(new Cell(CellType.Query));
   }
   save(event:any){
+    this.topic.modified=new Date();
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
       () => {
         this.dirty=false;
         var target = event.target || event.srcElement || event.currentTarget;
-        target.innerText = "Salvou!"
+        target.innerText = "Salvou!";
         setTimeout(function(){ target.innerText = "Salvar"; }, 3000);
       }
     );

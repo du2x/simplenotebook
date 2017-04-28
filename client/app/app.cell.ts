@@ -14,13 +14,12 @@ export class Cell implements ICell {
     datetime: Date;
     //connection: string;
   }
-  output: string;
   constructor(type: CellType) {
     this.type = type;
-    this.query={
+    this.query = {
       text:'',
       output:'',
-      datetime:null
+      datetime: null
     }
   }
   cmp(obj:ICell){
@@ -30,7 +29,6 @@ export class Cell implements ICell {
     this.type=obj.type;
     this.text=obj.text;
     this.query=obj.query;
-    this.output=obj.output;
   }
 }
 
@@ -76,8 +74,10 @@ export class CellComponent {
     if(this.cell.query){
       this.fsservice.executeQuery(this.cell.query.text).subscribe(
         results => {
-          if(results['status']=='SUCCESS')
-            this.cell.query.output=buildHtmlTable(JSON.parse(results['payload']))
+          if(results['status']=='SUCCESS') {
+            this.cell.query.output=buildHtmlTable(JSON.parse(results['payload']));
+            this.cell.query.datetime=new Date();
+          }
           else
             this.cell.query.output=results['message'];
         },

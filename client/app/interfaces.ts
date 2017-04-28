@@ -4,12 +4,11 @@ export interface ICell {
   type: CellType;
   text: string;
   query: {
-    text: string;
-    output: string;
-    datetime: Date;
+    text: string,
+    output: string,
+    datetime: Date
     //connection: string;
   }
-  output: string;
 }
 
 export interface ITopic {
