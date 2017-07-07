@@ -38,7 +38,8 @@ export class Topic implements ITopic{
 @Component({
   selector: "topic",
   template: `
-    <accordion-group heading="{{topic.title}}" (click)=clicked()  [class.modified]="dirty">
+    <div *ngIf="topic" [class.modified]="dirty">
+      <h3>{{topic.title}}</h3>
       <div class="topic-pane container" >
         <div class="cells">
           <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified($event)">
@@ -50,13 +51,12 @@ export class Topic implements ITopic{
             <button class="btn btn-sm btn-outline-primary" (click)="addQueryCell()">Add Query</button>
           </div>
           <div class="col-1">
-            <button class="btn btn-sm btn-success" (click)="save($event)" [disabled]="!dirty">Save</button>
+            <button class="btn btn-sm btn-success" (click)="save($event)" [disabled]="!topic.dirty">Save</button>
           </div>
         </div>
       </div>
-    </accordion-group>
-  `,
-  providers: [AccordionModule,]
+    </div>
+  `
 })
 export class TopicComponent {
   // todo: remove cell functionality
@@ -64,17 +64,8 @@ export class TopicComponent {
   topic:Topic;
   dirty: boolean;
   constructor(private fsservice: FSService){ this.dirty=false; }
-  clicked(){
-    if(!this.topic.loaded){ // avoid loading from file more than once
-      this.topic.loaded = true;
-      this.fsservice.readTopicFile(this.topic.filename).subscribe(
-        topicobj => this.topic.copyObjProperties(topicobj),
-        error => console.error('Error on reading topic.'),
-        () => console.log('Topic reading complete.')
-      );
-    }
-  }
   onModified(dirty:boolean){
+    this.topic.dirty = true;
     this.dirty=dirty;
   }
   addTextCell(){
@@ -90,6 +81,7 @@ export class TopicComponent {
       error => console.error('Error on reading topic.'),
       () => {
         this.dirty=false;
+        this.topic.dirty = false;
         var target = event.target || event.srcElement || event.currentTarget;
         target.innerText = "Salvou!";
         setTimeout(function(){ target.innerText = "Salvar"; }, 3000);

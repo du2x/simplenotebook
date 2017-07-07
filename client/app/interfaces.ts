@@ -14,6 +14,7 @@ export interface ICell {
 export interface ITopic {
   title: string;
   filename: string;
+  dirty: boolean;
   created: Date;
   modified: Date;
   cells: ICell[];

@@ -83,3 +83,22 @@ accordion-group .panel-heading{
 pre.editable{
   font-style: normal;
 }
+
+.container-fluid{
+  margin-bottom: 50px;
+}
+
+.btn-primary {
+  margin: 5px 0;
+}
+
+topic > div{
+  border: 1px solid gray;
+  margin-top: 7px;
+  padding: 7px;
+  background-color:#eee;
+}
+
+.topics > div{
+  cursor: pointer;
+}
