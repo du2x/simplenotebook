@@ -10,6 +10,7 @@ export class Topic implements ITopic{
   title: string;
   loaded: boolean;
   filename: string;
+  dirty: boolean;
   created: Date;
   modified: Date;
   cells: ICell[];
@@ -38,7 +39,7 @@ export class Topic implements ITopic{
 @Component({
   selector: "topic",
   template: `
-    <div *ngIf="topic" [class.modified]="dirty">
+    <div *ngIf="topic" [class.modified]="topic.dirty">
       <h3>{{topic.title}}</h3>
       <div class="topic-pane container" >
         <div class="cells">
@@ -62,11 +63,9 @@ export class TopicComponent {
   // todo: remove cell functionality
   @Input()
   topic:Topic;
-  dirty: boolean;
-  constructor(private fsservice: FSService){ this.dirty=false; }
+  constructor(private fsservice: FSService){ this.topic.dirty=false; }
   onModified(dirty:boolean){
     this.topic.dirty = true;
-    this.dirty=dirty;
   }
   addTextCell(){
     this.topic.cells.push(new Cell(CellType.Text));
@@ -80,7 +79,6 @@ export class TopicComponent {
       data => { console.log(data); },
       error => console.error('Error on reading topic.'),
       () => {
-        this.dirty=false;
         this.topic.dirty = false;
         var target = event.target || event.srcElement || event.currentTarget;
         target.innerText = "Salvou!";
