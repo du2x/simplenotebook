@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges,SimpleChange } from "@angular/core";
-import { FSService } from "./fsservice"
+import { FSService } from "./fsservice";
 import { ICell, CellType } from './interfaces';
-import { buildHtmlTable } from './js2table'
-
-import js2table = require('./js2table');
+import { buildHtmlTable } from './js2table';
 
 export class Cell implements ICell {
   type: CellType;
