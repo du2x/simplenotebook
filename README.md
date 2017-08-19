@@ -14,8 +14,10 @@ It uses 3 components:
 Those components goes up with:
 
 ```
+cd $LOCALREPO/sn-client
+ng build
+cd ..
 docker-compose up --build
 ```
-
 
 du2x
