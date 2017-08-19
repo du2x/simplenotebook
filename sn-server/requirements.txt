@@ -1,0 +1,8 @@
+flask
+flask-cors
+slugify
+
+gunicorn==19.3.0
+
+Flask-SQLAlchemy==2.0
+psycopg2==2.7.1

@@ -1,0 +1,100 @@
+h1 .navbar-brand {
+  font-size: 28px;
+}
+
+.editable{
+  border: 1px dashed #ddd;
+  padding: 7px;
+}
+
+textarea{
+  width:100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+nav {
+  background-color: grey;
+}
+
+.panel-open .panel-heading{
+  background-color: #e6efdd;
+  font-weight: bold;
+}
+
+accordion-group .panel-heading{
+  background-color: #ddd;
+}
+
+.panel-body, .panel-collapse{
+  background-color: #fafff5;
+}
+
+.topic-pane {
+  min-height: 120px;
+  font-style: normal;
+}
+
+.topics{
+  margin:10px 0;
+}
+
+.cell-query{
+  margin-bottom: 20px;
+  border: 1px dotted #aaa;
+  padding: 10px 0;
+}
+
+.query{
+  background-color: #e5ffd0;
+  padding: 10px;
+}
+
+.cell-output {
+  background-color: #e5ffd0;
+  max-height: 400px;
+  width:100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid black;
+}
+
+.visual-clear{
+  clear:both;
+}
+
+.visual-clear-space{
+  clear:both;
+}
+
+.modified{
+  font-style: italic;
+}
+
+.cell-query pre.editable{
+	font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace !important;
+}
+
+pre.editable{
+  font-style: normal;
+}
+
+.container-fluid{
+  margin-bottom: 50px;
+}
+
+.btn-primary {
+  margin: 5px 0;
+}
+
+topic > div{
+  border: 1px solid gray;
+  margin-top: 7px;
+  padding: 7px;
+  background-color:#eee;
+}
+
+.topics > div{
+  cursor: pointer;
+}
