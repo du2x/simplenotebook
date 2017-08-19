@@ -7,16 +7,16 @@ postgres:
   ports:
     - '5432:5432'
   volumes:
-    - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    - ./sn-server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 simplenotebook-client:
-  build: ./client/
+  build: ./sn-client/
   ports:
     - "80:80"
 
 simplenotebook-server:
-  build: ./server/
-  command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "server.app:app"
+  build: ./sn-server/
+  command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "sn-server.app:app"
   environment:
     PYTHONUNBUFFERED: 1
   links:

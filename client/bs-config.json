@@ -1,9 +1,0 @@
-{
-  "port": 80,
-  "server": {
-    "baseDir": ".",
-    "routes": {
-      "/node_modules": "node_modules"
-    }
-  }
-}
