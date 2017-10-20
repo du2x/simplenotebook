@@ -65,7 +65,7 @@ export class TopicComponent {
   topic:Topic;
   constructor(private fsservice: FSService){}
   onModified(dirty:boolean){
-    this.topic.dirty = true;
+    this.topic.dirty = dirty;
   }
   addTextCell(){
     this.topic.cells.push(new Cell(CellType.Text));

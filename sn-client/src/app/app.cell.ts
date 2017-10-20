@@ -23,9 +23,10 @@ export class Cell implements ICell {
   cmp(obj:ICell){
     return this.type==obj.type && this.text==obj.text
           && this.query.text == obj.query.text
-          && this.query.output == obj.query.output          
+          && this.query.output == obj.query.output
   }
   copy(obj:ICell){ // todo: look for generic implementation
+  // https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
     this.type=obj.type;
     this.text=obj.text;
     this.query.text=obj.query.text;
