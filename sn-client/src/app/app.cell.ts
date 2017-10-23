@@ -81,7 +81,7 @@ export class CellComponent {
         },
         error => {
           console.error('Error on query execution.');
-          this.cell.output="Query execution failure. TODO: capture error details."
+          this.cell.output="Query execution failure." + error
         },
         () => console.log('Query executing complete.')
       );

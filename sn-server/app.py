@@ -65,13 +65,15 @@ def create_file(title):
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
-@app.route('/execute', methods=['POST',])
+@app.route('/api/command/execute', methods=['POST',])
 def execute():
     contents = request.data
+    data = json.load(contents)
+    sql = data['sql']
     try:
         conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute(contents)
+        cur.execute(sql)
         return jsonify({'status':'SUCCESS', 'payload': json.dumps(cur.fetchall())})
     except Exception, e:
         return jsonify({'status':'FAILURE', 'message': str(e)})

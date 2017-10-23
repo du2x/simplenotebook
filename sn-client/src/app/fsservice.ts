@@ -26,7 +26,9 @@ export class FSService {
 //			.map(response => response.json());
 	}
 	executeQuery(query:string){
-		return this.dataservice.post('http://localhost:5000/api/cell/execute', query)
+		let headers = new Headers({'Content-Type': 'application/json', 'Accept': 'application/json'});
+		let options = new RequestOptions({ headers: headers });
+		return this.dataservice.post('http://localhost:5000/api/command/execute', {'sql': query}, options)
 			.map(response => response.json());
 	}
 }

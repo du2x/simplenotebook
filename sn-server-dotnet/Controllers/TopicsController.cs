@@ -53,11 +53,5 @@ namespace sn_server_dotnet.Controllers
             string stopic = JsonConvert.SerializeObject(topic);
             System.IO.File.WriteAllText(@"data/" + filename, stopic);
         }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
