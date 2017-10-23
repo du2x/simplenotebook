@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace sn_server_dotnet.Models
@@ -9,14 +10,17 @@ namespace sn_server_dotnet.Models
         public string Filename { get; set; }
         public DateTime Created { get; set; }
 
-        public Cell[] Cells{ get; set;}
+        public IList<Cell> Cells{ get; set;}
 
         public Topic(JObject jobj, bool full=true){
             Title = jobj.GetValue("title").ToString();
             Filename = jobj.GetValue("filename").ToString();
             Created = (DateTime)jobj.GetValue("created");
+            Cells = new List<Cell>();                         
             if (full){
-                // load full
+                foreach(JObject obj in jobj.GetValue("cells")){
+                    Cells.Add(new Cell(obj));
+                }
             }
         }
     }
@@ -30,5 +34,8 @@ namespace sn_server_dotnet.Models
 
         public DateTime DateTime { get; set; }
 
+        public Cell(JObject obj){
+            Content = (String) obj.GetValue("Text");
+        }
     }
 }

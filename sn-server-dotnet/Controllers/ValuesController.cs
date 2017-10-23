@@ -22,7 +22,7 @@ namespace sn_server_dotnet.Controllers
                 "./data", "*", SearchOption.TopDirectoryOnly);
             foreach(string entry in entries){
                 JObject o1 = JObject.Parse(System.IO.File.ReadAllText(entry));
-                list.Add(new Topic(o1));
+                list.Add(new Topic(o1, false));
             }            
             list.Sort((x, y) => -1 * DateTime.Compare(x.Created, y.Created));
             return JsonConvert.SerializeObject(list);
