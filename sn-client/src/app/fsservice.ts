@@ -6,23 +6,24 @@ import "rxjs/add/operator/map";
 export class FSService {
   constructor(private dataservice: Http) { }
   listFiles(){
-    return this.dataservice.get('http://localhost:5000/list_files')
+    return this.dataservice.get('http://localhost:5000/api/topics')
       .map(response => response.json());
   }
   readTopicFile(filename: string){
-    return this.dataservice.get('http://localhost:5000/get/'+filename)
+    return this.dataservice.get('http://localhost:5000/api/topics/'+filename)
       .map(response => response.json());
   }
   saveTopicFile(filename: string, filecontents:string){
-    return this.dataservice.post('http://localhost:5000/save/'+filename, filecontents)
+    return this.dataservice.post('http://localhost:5000/api/topics/'+filename, filecontents)
       .map(response => response.json());
   }
   newTopicFile(title: string){
-    return this.dataservice.post('http://localhost:5000/create/'+title, "")
+    return this.dataservice.put('http://localhost:5000/api/topics/'+title, "")
       .map(response => response.json());
   }
   executeQuery(query:string){
-    return this.dataservice.post('http://localhost:5000/execute', query)
+    return this.dataservice.post('http://localhost:5000/api/cell/execute', query)
       .map(response => response.json());
   }
 }
+

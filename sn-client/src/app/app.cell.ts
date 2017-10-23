@@ -5,32 +5,28 @@ import { buildHtmlTable } from './js2table';
 
 export class Cell implements ICell {
   type: CellType;
-  text: string;
-  query: {
-    text: string;
-    output: string;
-    datetime: Date;
-    //connection: string;
-  }
+  content: string;
+  output: string;
+  datetime: Date;
+  //connection: string;
+  
   constructor(type: CellType) {
     this.type = type;
-    this.query = {
-      text:'',
-      output:'',
-      datetime: null
-    }
+    this.content = '';
+    this.output = '';
+    this.datetime = null;
   }
   cmp(obj:ICell){
-    return this.type==obj.type && this.text==obj.text
-          && this.query.text == obj.query.text
-          && this.query.output == obj.query.output
+    return this.type==obj.type 
+            && this.content==obj.content 
+            && this.datetime==obj.datetime;
   }
   copy(obj:ICell){ // todo: look for generic implementation
   // https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
     this.type=obj.type;
-    this.text=obj.text;
-    this.query.text=obj.query.text;
-    this.query.output=obj.query.output;
+    this.content=obj.content;
+    this.output=obj.output;
+    this.datetime= obj.datetime
   }
 }
 
@@ -46,13 +42,13 @@ export class Cell implements ICell {
     </div>
     <div *ngIf="cell.type==CellType.Query" class="row cell-query">
       <div (dblclick)="editingQuery=true" class="col-11">
-        <pre class=query  *ngIf=!editingQuery placeholder="">{{cell.query.text || "Query"}}</pre>
+        <pre class=query  *ngIf=!editingQuery placeholder="">{{cell.content || "Query"}}</pre>
         <textarea fz-elastic class=txt-query cols="" rows="" *ngIf=editingQuery (blur)="editingQuery=false"
-        [(ngModel)]=cell.query.text NgControlDefault>{{cell.query.text}}</textarea>
-        <div *ngIf="cell.query.output" class="cell-output" [innerHtml]=cell.query.output></div>
+        [(ngModel)]=cell.content NgControlDefault>{{cell.content}}</textarea>
+        <div *ngIf="cell.output" class="cell-output" [innerHtml]=cell.output></div>
       </div>
       <div class="col-1">
-        <button class="btn-execute btn btn-sm btn-secundary" [disabled]="!cell.query.text" (click)="execute()">Go!</button>
+        <button class="btn-execute btn btn-sm btn-secundary" [disabled]="!cell.content" (click)="execute()">Go!</button>
       </div>
     </div>
   `,
@@ -73,19 +69,19 @@ export class CellComponent {
     this.editingQuery = false;
   }
   execute(){
-    if(this.cell.query){
-      this.fsservice.executeQuery(this.cell.query.text).subscribe(
+    if(this.cell.content){
+      this.fsservice.executeQuery(this.cell.content).subscribe(
         results => {
           if(results['status']=='SUCCESS') {
-            this.cell.query.output=buildHtmlTable(JSON.parse(results['payload']));
-            this.cell.query.datetime=new Date();
+            this.cell.output=buildHtmlTable(JSON.parse(results['payload']));
+            this.cell.datetime=new Date();
           }
           else
-            this.cell.query.output=results['message'];
+            this.cell.output=results['message'];
         },
         error => {
           console.error('Error on query execution.');
-          this.cell.query.output="Query execution failure. TODO: capture error details."
+          this.cell.output="Query execution failure. TODO: capture error details."
         },
         () => console.log('Query executing complete.')
       );

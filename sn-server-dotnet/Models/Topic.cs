@@ -6,20 +6,20 @@ namespace sn_server_dotnet.Models
 {
     public class Topic
     {
-        public string Title { get; set; }
-        public string Filename { get; set; }
-        public DateTime Created { get; set; }
+        public string title { get; set; }
+        public string filename { get; set; }
+        public DateTime created { get; set; }
 
-        public IList<Cell> Cells{ get; set;}
+        public IList<Cell> cells{ get; set;}
 
         public Topic(JObject jobj, bool full=true){
-            Title = jobj.GetValue("title").ToString();
-            Filename = jobj.GetValue("filename").ToString();
-            Created = (DateTime)jobj.GetValue("created");
-            Cells = new List<Cell>();                         
+            title = jobj.GetValue("title").ToString();
+            filename = jobj.GetValue("filename").ToString();
+            created = (DateTime)jobj.GetValue("created");
+            cells = new List<Cell>();                         
             if (full){
                 foreach(JObject obj in jobj.GetValue("cells")){
-                    Cells.Add(new Cell(obj));
+                    cells.Add(new Cell(obj));
                 }
             }
         }
@@ -27,15 +27,15 @@ namespace sn_server_dotnet.Models
 
     public class Cell{
 
-        public string Type { get; set; }
-        public string Content { get; set; }
+        public string type { get; set; }
+        public string content { get; set; }
 
-        public string Output { get; set; }
+        public string output { get; set; }
 
         public DateTime DateTime { get; set; }
 
         public Cell(JObject obj){
-            Content = (String) obj.GetValue("Text");
+            content = (String) obj.GetValue("Text");
         }
     }
 }

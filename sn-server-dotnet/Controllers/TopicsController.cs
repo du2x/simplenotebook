@@ -10,10 +10,10 @@ using sn_server_dotnet.Models;
 
 namespace sn_server_dotnet.Controllers
 {
-    [Route("api/apuracoes")]
-    public class ValuesController : Controller
+    [Route("api/topics")]
+    public class TopicsController : Controller
     {
-        // GET api/apuracoes/
+        // GET api/topics/
         [HttpGet]
         public string Get()
         {
@@ -24,11 +24,11 @@ namespace sn_server_dotnet.Controllers
                 JObject o1 = JObject.Parse(System.IO.File.ReadAllText(entry));
                 list.Add(new Topic(o1, false));
             }            
-            list.Sort((x, y) => -1 * DateTime.Compare(x.Created, y.Created));
+            list.Sort((x, y) => -1 * DateTime.Compare(x.created, y.created));
             return JsonConvert.SerializeObject(list);
         }
 
-        // GET api/apuracoes/topic.json
+        // GET api/topics/topic.json
         [HttpGet("{filename}")]
         public string Get(string filename)
         {
