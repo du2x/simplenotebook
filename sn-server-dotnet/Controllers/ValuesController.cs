@@ -1,26 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using sn_server_dotnet.Models;
 
 namespace sn_server_dotnet.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/apuracoes")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        // GET api/apuracoes/
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            List<Topic> list = new List<Topic>();
+            string[] entries = Directory.GetFileSystemEntries(
+                "./data", "*", SearchOption.TopDirectoryOnly);
+            foreach(string entry in entries){
+                JObject o1 = JObject.Parse(System.IO.File.ReadAllText(entry));
+                list.Add(new Topic(o1));
+            }            
+            list.Sort((x, y) => -1 * DateTime.Compare(x.Created, y.Created));
+            return JsonConvert.SerializeObject(list);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/apuracoes/topic.json
+        [HttpGet("{filename}")]
+        public string Get(string filename)
         {
-            return "value";
+            JObject o1 = JObject.Parse(System.IO.File.ReadAllText("data/" + filename));
+            return JsonConvert.SerializeObject(new Topic(o1));
         }
 
         // POST api/values

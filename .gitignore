@@ -39,5 +39,5 @@ venv/
 
 *.pyc
 
-/obj
-/bin
+*/obj/
+*/bin/
