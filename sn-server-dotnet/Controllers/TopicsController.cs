@@ -36,16 +36,22 @@ namespace sn_server_dotnet.Controllers
             return JsonConvert.SerializeObject(new Topic(o1));
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        // POST api/topics/{title}
+        [HttpPost("{title}")]
+        public void Post(string title)
         {
+            Topic topic = new Topic(title);
+            string stopic = JsonConvert.SerializeObject(topic);
+            System.IO.File.WriteAllText(@"data/" + topic.filename, stopic);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT api/topics/{filename}
+        [HttpPut("{filename}")]
+        public void Put(string filename, [FromBody]JObject jtopic)
         {
+            Topic topic = new Topic(jtopic);
+            string stopic = JsonConvert.SerializeObject(topic);
+            System.IO.File.WriteAllText(@"data/" + filename, stopic);
         }
 
         // DELETE api/values/5

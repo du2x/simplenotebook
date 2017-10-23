@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges,SimpleChange } from "@angular/core";
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChange } from "@angular/core";
 import { FSService } from "./fsservice";
 import { ICell, CellType } from './interfaces';
 import { buildHtmlTable } from './js2table';
@@ -14,7 +14,7 @@ export class Cell implements ICell {
     this.type = type;
     this.content = '';
     this.output = '';
-    this.datetime = null;
+    this.datetime = new Date();
   }
   cmp(obj:ICell){
     return this.type==obj.type 
@@ -35,9 +35,9 @@ export class Cell implements ICell {
   template: `
     <div class="row" *ngIf="cell.type==CellType.Text">
       <div class="col-12" (dblclick)="editingText=true">
-        <pre class="editable" *ngIf=!editingText placeholder="">{{cell.text || "Text"}}</pre>
+        <pre class="editable" *ngIf=!editingText placeholder="">{{cell.content || "Text"}}</pre>
         <textarea fz-elastic cols="" rows="" *ngIf=editingText (blur)="editingText=false"
-        [(ngModel)]=cell.text NgControlDefault>{{cell.text}}</textarea>
+        [(ngModel)]=cell.content NgControlDefault>{{cell.content}}</textarea>
       </div>
     </div>
     <div *ngIf="cell.type==CellType.Query" class="row cell-query">
@@ -56,7 +56,7 @@ export class Cell implements ICell {
 export class CellComponent {
   lastCheckedCell: Cell;
   @Input() cell:Cell;
-  @Output() onModified = new EventEmitter<boolean>();
+  @Output() onModified = new EventEmitter<boolean>(true);
   setDirty(dirty:boolean){
     this.onModified.emit(dirty);
   }
@@ -98,9 +98,10 @@ export class CellComponent {
       }
     }
   }
-  ngDoCheck() {
+ ngDoCheck() {
     if(!this.lastCheckedCell.cmp(this.cell)){
       this.setDirty(true);
+      this.cell.datetime = new Date();
       this.lastCheckedCell.copy(this.cell);
     }
   }

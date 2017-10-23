@@ -21,7 +21,7 @@ app.logger.addHandler(stream_handler)
 data_path = 'data'
 
 @cross_origin('*')
-@app.route('/list_files')
+@app.route('/api/topics/')
 def list_files():
     topics = []
     for filename in listdir(data_path):
@@ -34,13 +34,13 @@ def list_files():
     return jsonify([{'title':f['title'], 'filename':f['filename']} for f in topics])
 
 @cross_origin('*')
-@app.route('/get/<filename>')
+@app.route('/api/topics/<filename>')
 def read_file(filename):
     with open('/'.join([data_path,filename])) as filecontents:
         return jsonify(json.load(filecontents))
 
 @cross_origin('*')
-@app.route('/save/<filename>', methods=['POST',])
+@app.route('/api/topics/<filename>', methods=['PUT',])
 def save_file(filename):
     try:
         contents = request.data
@@ -51,7 +51,7 @@ def save_file(filename):
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
-@app.route('/create/<title>', methods=['POST',])
+@app.route('/api/topics/<title>', methods=['POST',])
 def create_file(title):
     try:
         filename = slugify(title)+'.json'
