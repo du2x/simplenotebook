@@ -14,9 +14,9 @@ simplenotebook-client:
   ports:
     - "80:80"
 
-simplenotebook-server:
-  build: ./sn-server/
-  command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "sn-server.app:app"
+simplenotebook-server-python:
+  build: ./sn-server-python/
+  command: gunicorn -b 0.0.0.0:5000 --reload --access-logfile - "sn-server-python.app:app"
   environment:
     PYTHONUNBUFFERED: 1
   links:
