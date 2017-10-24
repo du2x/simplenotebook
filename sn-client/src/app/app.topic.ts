@@ -43,7 +43,7 @@ export class Topic implements ITopic{
       <h3>{{topic.title}}</h3>
       <div class="topic-pane container" >
         <div class="cells">
-          <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified($event)">
+          <cell [cell]=cell *ngFor="let cell of topic.cells" (onModified)="onModified(true)">
           </cell>
         </div>
         <div class="row">
@@ -64,8 +64,9 @@ export class TopicComponent {
   @Input()
   topic:Topic;
   constructor(private fsservice: FSService){}
-  onModified(dirty:boolean){
-    this.topic.dirty = true;
+  onModified(dirty: boolean){
+    console.log('modified');
+    this.topic.dirty = dirty;
   }
   addTextCell(){
     this.topic.cells.push(new Cell(CellType.Text));
@@ -77,7 +78,7 @@ export class TopicComponent {
     this.topic.modified=new Date();
     this.fsservice.saveTopicFile(this.topic.filename, this.topic.stringify()).subscribe(
       data => { console.log(data); },
-      error => console.error('Error on reading topic.'),
+      error => console.error('Error on reading topic.' + error),
       () => {
         this.topic.dirty = false;
         var target = event.target || event.srcElement || event.currentTarget;

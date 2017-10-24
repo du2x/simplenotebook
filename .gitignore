@@ -38,3 +38,6 @@ fsservice.js
 venv/
 
 *.pyc
+
+*/obj/
+*/bin/

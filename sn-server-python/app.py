@@ -21,7 +21,7 @@ app.logger.addHandler(stream_handler)
 data_path = 'data'
 
 @cross_origin('*')
-@app.route('/list_files')
+@app.route('/api/topics/')
 def list_files():
     topics = []
     for filename in listdir(data_path):
@@ -34,13 +34,13 @@ def list_files():
     return jsonify([{'title':f['title'], 'filename':f['filename']} for f in topics])
 
 @cross_origin('*')
-@app.route('/get/<filename>')
+@app.route('/api/topics/<filename>')
 def read_file(filename):
     with open('/'.join([data_path,filename])) as filecontents:
         return jsonify(json.load(filecontents))
 
 @cross_origin('*')
-@app.route('/save/<filename>', methods=['POST',])
+@app.route('/api/topics/<filename>', methods=['PUT',])
 def save_file(filename):
     try:
         contents = request.data
@@ -51,7 +51,7 @@ def save_file(filename):
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
-@app.route('/create/<title>', methods=['POST',])
+@app.route('/api/topics/<title>', methods=['POST',])
 def create_file(title):
     try:
         filename = slugify(title)+'.json'
@@ -65,13 +65,15 @@ def create_file(title):
     return jsonify({'status':'SUCCESS'})
 
 @cross_origin('*')
-@app.route('/execute', methods=['POST',])
+@app.route('/api/command/execute', methods=['POST',])
 def execute():
     contents = request.data
+    data = json.load(contents)
+    sql = data['sql']
     try:
         conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute(contents)
+        cur.execute(sql)
         return jsonify({'status':'SUCCESS', 'payload': json.dumps(cur.fetchall())})
     except Exception, e:
         return jsonify({'status':'FAILURE', 'message': str(e)})
