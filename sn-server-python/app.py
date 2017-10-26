@@ -68,7 +68,7 @@ def create_file(title):
 @app.route('/api/command/execute', methods=['POST',])
 def execute():
     contents = request.data
-    data = json.load(contents)
+    data = json.loads(contents)
     sql = data['sql']
     try:
         conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI)
