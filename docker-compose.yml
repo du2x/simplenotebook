@@ -7,7 +7,7 @@ postgres:
   ports:
     - '5432:5432'
   volumes:
-    - ./sn-server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 simplenotebook-client:
   build: ./sn-client/
