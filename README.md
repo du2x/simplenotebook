@@ -2,7 +2,11 @@
 
 A (very) simple sql notebook.
 
-[screenshot]: screenshot.png  "Screenshot"
+![screenshot](screenshot.png) 
+
+
+
+
  
 It uses 3 components:
 
